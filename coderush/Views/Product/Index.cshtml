@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Product";
 }
 <!-- Content Wrapper. Contains page content -->
@@ -22,11 +21,19 @@
                 </div>
             </div>
             <div class="box-body">
-                <div id="Grid"></div>
+                <ej-grid id="FlatGrid" allow-sorting="true" allow-paging="true">
+                    <e-datamanager url="/api/product" offline="true" adaptor="WebApiAdaptor"></e-datamanager>
+                    <e-columns>
+                        <e-column field="ProductId" header-text="Product ID" text-align="Right" width="75"></e-column>
+                        <e-column field="ProductName" header-text="ProductName" width="80"></e-column>
+                        <e-column field="Description" header-text="Description" text-align="Left" width="75"></e-column>
+                        <e-column field="ProductImageUrl" header-text="Ship City" width="110"></e-column>
+                    </e-columns>
+                </ej-grid>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-              
+
             </div>
             <!-- /.box-footer-->
         </div>
@@ -37,110 +44,8 @@
 <!-- /.content-wrapper -->
 
 @section Styles{
-
 }
 
 @section Scripts{
-
-    <script type="text/javascript">
-        $(function () {
-
-            var dataManager = ej.DataManager({
-                url: "/api/Product",
-                adaptor: new ej.WebApiAdaptor(),
-                offline: true
-            });
-
-            var dataManagerUnitOfMeasure = ej.DataManager({
-                url: "/api/UnitOfMeasure",
-                adaptor: new ej.WebApiAdaptor()
-            });
-
-            var dataManagerBranch = ej.DataManager({
-                url: "/api/Branch",
-                adaptor: new ej.WebApiAdaptor()
-            });
-
-            var dataManagerCurrency = ej.DataManager({
-                url: "/api/Currency",
-                adaptor: new ej.WebApiAdaptor()
-            });
-
-            dataManager.ready.done(function (e) { 
-                $("#Grid").ejGrid({
-                    dataSource: ej.DataManager({
-                        json: e.result,
-                        adaptor: new ej.remoteSaveAdaptor(),
-                        insertUrl: "/api/Product/Insert",
-                        updateUrl: "/api/Product/Update",
-                        removeUrl: "/api/Product/Remove",
-                    }),
-                    toolbarSettings: {
-                        showToolbar: true,
-                        toolbarItems: ["add", "edit", "delete", "update", "cancel", "search", "printGrid"]
-                    },
-                    editSettings: {
-                        allowEditing: true,
-                        allowAdding: true,
-                        allowDeleting: true,
-                        showDeleteConfirmDialog: true,
-                        editMode: "dialog"
-                    },
-                    isResponsive: true,
-                    enableResponsiveRow: true,
-                    allowSorting: true,
-                    allowSearching: true,
-                    allowFiltering: true,
-                    filterSettings: {
-                        filterType: "excel",
-                        maxFilterChoices: 100,
-                        enableCaseSensitivity: false
-                    },
-                    allowPaging: true,
-                    pageSettings: { pageSize: 10, printMode: ej.Grid.PrintMode.CurrentPage },
-                    columns: [
-                        { field: "ProductId", headerText: 'Product Id', isPrimaryKey: true, isIdentity: true, visible: false },
-                        { field: "ProductName", headerText: 'Product Name', validationRules: { required: true } },
-                        { field: "UnitOfMeasureId", headerText: 'UOM', foreignKeyField: "UnitOfMeasureId", foreignKeyValue: "UnitOfMeasureName", dataSource: dataManagerUnitOfMeasure, validationRules: { required: true } },
-                        { field: "Barcode", headerText: 'Barcode', },
-                        { field: "Description", headerText: 'Description', },
-                        { field: "ProductImageUrl", headerText: 'ProductImageUrl', visible: false },
-                        { field: "DefaultBuyingPrice", headerText: 'Buying Price', editType: "numericedit", format: "{0:n2}" },
-                        { field: "DefaultSellingPrice", headerText: 'Selling Price', editType: "numericedit", format: "{0:n2}" },
-                        { field: "BranchId", headerText: 'Branch', foreignKeyField: "BranchId", foreignKeyValue: "BranchName", dataSource: dataManagerBranch },
-                        { field: "CurrencyId", headerText: 'Currency', allowEditing: false, foreignKeyField: "CurrencyId", foreignKeyValue: "CurrencyCode", dataSource: dataManagerCurrency },
-                    ],
-                    actionComplete: "complete",
-                });
-            });
-
-            
-        });
-
-        function complete(args) {
-            if (args.requestType == 'beginedit') {
-                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
-            }
-            if (args.requestType == 'beginedit' || args.requestType == 'add') {
-                $('#GridBranchId').ejDropDownList({ change: 'branchDdlChange' });
-            }
-        }
-
-        function branchDdlChange(e) {
-            $.ajax({
-                url: '/api/Currency/GetByBranchId/' + e.selectedValue,
-                type: 'GET',
-                success: function (data) {
-                    $("#GridCurrencyId").ejDropDownList({
-                        dataSource: [data],
-                        fields: { id: 'CurrencyId', text: 'CurrencyCode', value: 'CurrencyId' },
-                        value: data.CurrencyId
-                    });
-                }
-            })
-        }
-
-
-    </script>
 }
 
