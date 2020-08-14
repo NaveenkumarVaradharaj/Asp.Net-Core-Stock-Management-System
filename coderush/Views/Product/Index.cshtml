@@ -21,23 +21,32 @@
                 </div>
             </div>
             <div class="box-body">
-                <ej-grid id="FlatGrid" allow-sorting="true" allow-paging="true" enable-alt-row="false" >
+                <ej-grid id="FlatGrid" allow-sorting="true" allow-paging="true" allow-text-wrap="true" enable-alt-row="false" >
                     <e-toolbar-settings show-toolbar="true" toolbar-items='@new List<string> {"add", "edit", "delete", "update", "cancel", "search", "printGrid"}' />
-                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" show-confirm-dialog= "true" edit-mode="Dialog"></e-edit-settings>
-
+                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" show-confirm-dialog= "true"
+                    edit-mode="DialogTemplate" dialog-editor-template-id="#editProductGrid"></e-edit-settings>
+                    <e-text-wrap-settings wrap-mode="Both"></e-text-wrap-settings>
                     <e-datamanager url="/api/product" offline="true" adaptor="WebApiAdaptor"></e-datamanager>
                     <e-columns>
-                        <e-column field="ProductImageUrl" header-text="" Template="#colImageTemplate" width="130"></e-column>
-                        <e-column field="ProductId" header-text="Product ID" text-align="Right" ></e-column>
+                        <e-column field="ProductImageUrl" header-text="Image" Template="#colImageTemplate" width="140"></e-column>
+                        <e-column field="ProductId" header-text="Product ID" is-primary-key="true" text-align="Right" visible="false" ></e-column>
                         <e-column field="ProductName" header-text="ProductName" ></e-column>
                         <e-column field="Description" header-text="Description" text-align="Left" ></e-column>
                         <e-column field="Barcode" header-text="Barcode" ></e-column>
+                        <e-column field="StockCount" header-text="StockCount" formaction="{0:N0}" ></e-column>
                         <e-column field="DefaultSellingPrice" header-text="Selling Price" format="{0:C2}"></e-column>
                         <e-column field="DiscountedSellingPrice" header-text="Discounted Selling Price" format="{0:C2}"></e-column>
                     </e-columns>
                 </ej-grid>
                 <script type="text/x-jsrender" id="colImageTemplate">
                     <input type="image" src="{{:ProductImageUrl}}" width="120" height="120"/>
+                </script>
+                <script type="text/x-jsrender" id="editProductGrid">
+                <div>
+                    Image: <input type="image" src="{{:ProductImageUrl}}" width="120" height="120"/><br/>
+                    ProductName: <input type="text" value="{{:ProductName}}" width="120"/><br/>
+                    Description: <input type="text" value="{{:Description}}" width="120"/><br/>
+                </div>
                 </script>
             </div>
             <!-- /.box-body -->
