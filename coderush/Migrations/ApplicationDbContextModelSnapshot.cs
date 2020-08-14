@@ -634,6 +634,9 @@ namespace coderush.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("StockCount")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UnitOfMeasureId")
                         .HasColumnType("integer");
 
