@@ -17,6 +17,8 @@ namespace coderush.Models
         public double DefaultSellingPrice { get; set; } = 0.0;
         public double DiscountedSellingPrice { get; set; } = 0.0;
 
+        public int StockCount { get; set; } = 0;
+
         [Display(Name = "Branch")]
         public int BranchId { get; set; }
         [Display(Name = "Currency")]
