@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace coderush.Migrations
 {
-    public partial class initialdb : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +13,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,20 +27,20 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,14 +52,14 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     BillId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BillDate = table.Column<DateTimeOffset>(nullable: false),
-                    BillDueDate = table.Column<DateTimeOffset>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BillName = table.Column<string>(nullable: true),
-                    BillTypeId = table.Column<int>(nullable: false),
                     GoodsReceivedNoteId = table.Column<int>(nullable: false),
                     VendorDONumber = table.Column<string>(nullable: true),
-                    VendorInvoiceNumber = table.Column<string>(nullable: true)
+                    VendorInvoiceNumber = table.Column<string>(nullable: true),
+                    BillDate = table.Column<DateTimeOffset>(nullable: false),
+                    BillDueDate = table.Column<DateTimeOffset>(nullable: false),
+                    BillTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +71,7 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     BillTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BillTypeName = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -86,17 +85,17 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     BranchId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BranchName = table.Column<string>(nullable: false),
-                    City = table.Column<string>(nullable: true),
-                    ContactPerson = table.Column<string>(nullable: true),
-                    CurrencyId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
+                    CurrencyId = table.Column<int>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true)
+                    ZipCode = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    ContactPerson = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,7 +107,7 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     CashBankId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CashBankName = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -122,9 +121,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     CurrencyId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CurrencyCode = table.Column<string>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CurrencyName = table.Column<string>(nullable: false),
+                    CurrencyCode = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -137,16 +136,16 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     CustomerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    ContactPerson = table.Column<string>(nullable: true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CustomerName = table.Column<string>(nullable: false),
                     CustomerTypeId = table.Column<int>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true)
+                    ZipCode = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    ContactPerson = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -158,7 +157,7 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     CustomerTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CustomerTypeName = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -172,14 +171,14 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     GoodsReceivedNoteId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    GRNDate = table.Column<DateTimeOffset>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     GoodsReceivedNoteName = table.Column<string>(nullable: true),
-                    IsFullReceive = table.Column<bool>(nullable: false),
                     PurchaseOrderId = table.Column<int>(nullable: false),
+                    GRNDate = table.Column<DateTimeOffset>(nullable: false),
                     VendorDONumber = table.Column<string>(nullable: true),
                     VendorInvoiceNumber = table.Column<string>(nullable: true),
-                    WarehouseId = table.Column<int>(nullable: false)
+                    WarehouseId = table.Column<int>(nullable: false),
+                    IsFullReceive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,12 +190,12 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     InvoiceId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    InvoiceName = table.Column<string>(nullable: true),
+                    ShipmentId = table.Column<int>(nullable: false),
                     InvoiceDate = table.Column<DateTimeOffset>(nullable: false),
                     InvoiceDueDate = table.Column<DateTimeOffset>(nullable: false),
-                    InvoiceName = table.Column<string>(nullable: true),
-                    InvoiceTypeId = table.Column<int>(nullable: false),
-                    ShipmentId = table.Column<int>(nullable: false)
+                    InvoiceTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,9 +207,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     InvoiceTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    InvoiceTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    InvoiceTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -222,11 +221,11 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     NumberSequenceId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LastNumber = table.Column<int>(nullable: false),
-                    Module = table.Column<string>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NumberSequenceName = table.Column<string>(nullable: false),
-                    Prefix = table.Column<string>(nullable: false)
+                    Module = table.Column<string>(nullable: false),
+                    Prefix = table.Column<string>(nullable: false),
+                    LastNumber = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -238,13 +237,13 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     PaymentReceiveId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    InvoiceId = table.Column<int>(nullable: false),
-                    IsFullPayment = table.Column<bool>(nullable: false),
-                    PaymentAmount = table.Column<double>(nullable: false),
-                    PaymentDate = table.Column<DateTimeOffset>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PaymentReceiveName = table.Column<string>(nullable: true),
-                    PaymentTypeId = table.Column<int>(nullable: false)
+                    InvoiceId = table.Column<int>(nullable: false),
+                    PaymentDate = table.Column<DateTimeOffset>(nullable: false),
+                    PaymentTypeId = table.Column<int>(nullable: false),
+                    PaymentAmount = table.Column<double>(nullable: false),
+                    IsFullPayment = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -256,9 +255,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     PaymentTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    PaymentTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PaymentTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -270,14 +269,14 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     PaymentvoucherId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PaymentVoucherName = table.Column<string>(nullable: true),
                     BillId = table.Column<int>(nullable: false),
-                    CashBankId = table.Column<int>(nullable: false),
-                    IsFullPayment = table.Column<bool>(nullable: false),
-                    PaymentAmount = table.Column<double>(nullable: false),
                     PaymentDate = table.Column<DateTimeOffset>(nullable: false),
                     PaymentTypeId = table.Column<int>(nullable: false),
-                    PaymentVoucherName = table.Column<string>(nullable: true)
+                    PaymentAmount = table.Column<double>(nullable: false),
+                    CashBankId = table.Column<int>(nullable: false),
+                    IsFullPayment = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,17 +288,18 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductName = table.Column<string>(nullable: false),
+                    ProductCode = table.Column<string>(nullable: true),
                     Barcode = table.Column<string>(nullable: true),
-                    BranchId = table.Column<int>(nullable: false),
-                    CurrencyId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    ProductImageUrl = table.Column<string>(nullable: true),
+                    UnitOfMeasureId = table.Column<int>(nullable: false),
                     DefaultBuyingPrice = table.Column<double>(nullable: false),
                     DefaultSellingPrice = table.Column<double>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ProductCode = table.Column<string>(nullable: true),
-                    ProductImageUrl = table.Column<string>(nullable: true),
-                    ProductName = table.Column<string>(nullable: false),
-                    UnitOfMeasureId = table.Column<int>(nullable: false)
+                    DiscountedSellingPrice = table.Column<double>(nullable: false),
+                    BranchId = table.Column<int>(nullable: false),
+                    CurrencyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -307,13 +307,28 @@ namespace coderush.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductProperty",
+                columns: table => new
+                {
+                    ProductPropertyId = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductProperty", x => x.ProductPropertyId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductType",
                 columns: table => new
                 {
                     ProductTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    ProductTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -325,21 +340,21 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     PurchaseOrderId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<double>(nullable: false),
-                    BranchId = table.Column<int>(nullable: false),
-                    CurrencyId = table.Column<int>(nullable: false),
-                    DeliveryDate = table.Column<DateTimeOffset>(nullable: false),
-                    Discount = table.Column<double>(nullable: false),
-                    Freight = table.Column<double>(nullable: false),
-                    OrderDate = table.Column<DateTimeOffset>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PurchaseOrderName = table.Column<string>(nullable: true),
+                    BranchId = table.Column<int>(nullable: false),
+                    VendorId = table.Column<int>(nullable: false),
+                    OrderDate = table.Column<DateTimeOffset>(nullable: false),
+                    DeliveryDate = table.Column<DateTimeOffset>(nullable: false),
+                    CurrencyId = table.Column<int>(nullable: false),
                     PurchaseTypeId = table.Column<int>(nullable: false),
                     Remarks = table.Column<string>(nullable: true),
+                    Amount = table.Column<double>(nullable: false),
                     SubTotal = table.Column<double>(nullable: false),
+                    Discount = table.Column<double>(nullable: false),
                     Tax = table.Column<double>(nullable: false),
-                    Total = table.Column<double>(nullable: false),
-                    VendorId = table.Column<int>(nullable: false)
+                    Freight = table.Column<double>(nullable: false),
+                    Total = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -351,9 +366,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     PurchaseTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    PurchaseTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PurchaseTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -365,21 +380,21 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     SalesOrderId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<double>(nullable: false),
-                    BranchId = table.Column<int>(nullable: false),
-                    CurrencyId = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false),
-                    CustomerRefNumber = table.Column<string>(nullable: true),
-                    DeliveryDate = table.Column<DateTimeOffset>(nullable: false),
-                    Discount = table.Column<double>(nullable: false),
-                    Freight = table.Column<double>(nullable: false),
-                    OrderDate = table.Column<DateTimeOffset>(nullable: false),
-                    Remarks = table.Column<string>(nullable: true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SalesOrderName = table.Column<string>(nullable: true),
+                    BranchId = table.Column<int>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    OrderDate = table.Column<DateTimeOffset>(nullable: false),
+                    DeliveryDate = table.Column<DateTimeOffset>(nullable: false),
+                    CurrencyId = table.Column<int>(nullable: false),
+                    CustomerRefNumber = table.Column<string>(nullable: true),
                     SalesTypeId = table.Column<int>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    Amount = table.Column<double>(nullable: false),
                     SubTotal = table.Column<double>(nullable: false),
+                    Discount = table.Column<double>(nullable: false),
                     Tax = table.Column<double>(nullable: false),
+                    Freight = table.Column<double>(nullable: false),
                     Total = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -392,9 +407,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     SalesTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    SalesTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SalesTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -406,13 +421,13 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     ShipmentId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsFullShipment = table.Column<bool>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ShipmentName = table.Column<string>(nullable: true),
                     SalesOrderId = table.Column<int>(nullable: false),
                     ShipmentDate = table.Column<DateTimeOffset>(nullable: false),
-                    ShipmentName = table.Column<string>(nullable: true),
                     ShipmentTypeId = table.Column<int>(nullable: false),
-                    WarehouseId = table.Column<int>(nullable: false)
+                    WarehouseId = table.Column<int>(nullable: false),
+                    IsFullShipment = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -424,9 +439,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     ShipmentTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    ShipmentTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ShipmentTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -438,9 +453,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     UnitOfMeasureId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    UnitOfMeasureName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UnitOfMeasureName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -452,14 +467,15 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     UserProfileId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicationUserId = table.Column<string>(nullable: true),
-                    ConfirmPassword = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    ConfirmPassword = table.Column<string>(nullable: true),
                     OldPassword = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
+                    ProfilePicture = table.Column<string>(nullable: true),
+                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -471,16 +487,16 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     VendorId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    ContactPerson = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    State = table.Column<string>(nullable: true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     VendorName = table.Column<string>(nullable: false),
                     VendorTypeId = table.Column<int>(nullable: false),
-                    ZipCode = table.Column<string>(nullable: true)
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    ContactPerson = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -492,9 +508,9 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     VendorTypeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    VendorTypeName = table.Column<string>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    VendorTypeName = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -506,10 +522,10 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     WarehouseId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BranchId = table.Column<int>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WarehouseName = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    WarehouseName = table.Column<string>(nullable: false)
+                    BranchId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -521,10 +537,10 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<string>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -542,10 +558,10 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -627,18 +643,18 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     PurchaseOrderLineId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<double>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    DiscountAmount = table.Column<double>(nullable: false),
-                    DiscountPercentage = table.Column<double>(nullable: false),
-                    Price = table.Column<double>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PurchaseOrderId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     Quantity = table.Column<double>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
+                    DiscountPercentage = table.Column<double>(nullable: false),
+                    DiscountAmount = table.Column<double>(nullable: false),
                     SubTotal = table.Column<double>(nullable: false),
-                    TaxAmount = table.Column<double>(nullable: false),
                     TaxPercentage = table.Column<double>(nullable: false),
+                    TaxAmount = table.Column<double>(nullable: false),
                     Total = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -657,18 +673,18 @@ namespace coderush.Migrations
                 columns: table => new
                 {
                     SalesOrderLineId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<double>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    DiscountAmount = table.Column<double>(nullable: false),
-                    DiscountPercentage = table.Column<double>(nullable: false),
-                    Price = table.Column<double>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<double>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SalesOrderId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Quantity = table.Column<double>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
+                    DiscountPercentage = table.Column<double>(nullable: false),
+                    DiscountAmount = table.Column<double>(nullable: false),
                     SubTotal = table.Column<double>(nullable: false),
-                    TaxAmount = table.Column<double>(nullable: false),
                     TaxPercentage = table.Column<double>(nullable: false),
+                    TaxAmount = table.Column<double>(nullable: false),
                     Total = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -691,8 +707,7 @@ namespace coderush.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -718,8 +733,7 @@ namespace coderush.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrderLine_PurchaseOrderId",
@@ -793,6 +807,9 @@ namespace coderush.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "ProductProperty");
 
             migrationBuilder.DropTable(
                 name: "ProductType");

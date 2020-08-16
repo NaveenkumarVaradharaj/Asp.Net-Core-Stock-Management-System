@@ -21,6 +21,8 @@ namespace coderush
 
         public IConfiguration Configuration { get; }
 
+        public SyncfusionDefaultOptions syncfusionOptions { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -29,6 +31,11 @@ namespace coderush
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnectionPostgres")));
+
+            // Get License Key for SyncFusion
+            IConfigurationSection syncFusionConfig = Configuration.GetSection("SyncfusionDefaultOptions");
+            services.Configure<SyncfusionDefaultOptions>(syncFusionConfig);
+            syncfusionOptions = syncFusionConfig.Get<SyncfusionDefaultOptions>();
 
 
             // Get Identity Default Options
@@ -114,6 +121,11 @@ namespace coderush
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+
+            //Register Syncfusion license
+	        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionOptions.LicenseKey);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

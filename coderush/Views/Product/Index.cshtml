@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Product";
 }
 <!-- Content Wrapper. Contains page content -->
@@ -22,11 +21,91 @@
                 </div>
             </div>
             <div class="box-body">
-                <div id="Grid"></div>
+                <ej-grid id="FlatGrid" allow-sorting="true" allow-paging="true" allow-text-wrap="true" enable-alt-row="false" >
+                    <e-toolbar-settings show-toolbar="true" toolbar-items='@new List<string> {"add", "edit", "delete", "update", "cancel", "search", "printGrid"}' />
+                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" show-confirm-dialog= "true"
+                    edit-mode="DialogTemplate" dialog-editor-template-id="#editProductGrid"></e-edit-settings>
+                    <e-text-wrap-settings wrap-mode="Both"></e-text-wrap-settings>
+                    <e-datamanager url="/api/product" offline="true" adaptor="WebApiAdaptor"></e-datamanager>
+                    <e-columns>
+                        <e-column field="ProductImageUrl" header-text="Image" Template="#colImageTemplate" width="140"></e-column>
+                        <e-column field="ProductId" header-text="Product ID" is-primary-key="true" text-align="Right" visible="false" ></e-column>
+                        <e-column field="ProductName" header-text="ProductName" ></e-column>
+                        <e-column field="Description" header-text="Description" text-align="Left" ></e-column>
+                        <e-column field="Barcode" header-text="Barcode" ></e-column>
+                        <e-column field="StockCount" header-text="StockCount" formaction="{0:N0}" ></e-column>
+                        <e-column field="DefaultSellingPrice" header-text="Selling Price" format="{0:C2}"></e-column>
+                        <e-column field="DiscountedSellingPrice" header-text="Discounted Selling Price" format="{0:C2}"></e-column>
+                    </e-columns>
+                </ej-grid>
+                <script type="text/template" id="colImageTemplate">
+                    <img src="{{:ProductImageUrl}}" width="120" height="120"/>
+                </script>
+                <script type="text/template" id="editProductGrid">
+                <table cellspacing="10">
+                    <tr>
+                        <td>
+                            Image:
+                        </td>
+                        <td>
+                            <img src="{{:ProductImageUrl}}" width="120" height="120"/><br/>
+                            <input type="text" id="ProductImageUrl" name="ProductImageUrl" class="e-field e-ejinputtext" value="{{:ProductImageUrl}}" style="width:200px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ProductName:
+                        </td>
+                        <td>
+                            <input type="text" id="ProductName" name="ProductName" class="e-field e-ejinputtext" value="{{:ProductName}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Description:
+                        </td>
+                        <td>
+                            <input type="text" id="Description" name="Description" class="e-field e-ejinputtext" value="{{:Description}}" style="width:200px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Barcode:
+                        </td>
+                        <td>
+                            <input type="text" id="Barcode" name="Barcode" class="e-field e-ejinputtext" value="{{:Barcode}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            StockCount:
+                        </td>
+                        <td>
+                            <input type="text" id="StockCount" name="StockCount" class="e-field e-ejinputtext" value="{{:StockCount}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            DefaultSellingPrice:
+                        </td>
+                        <td>
+                            <input type="text" id="DefaultSellingPrice" name="DefaultSellingPrice" class="e-field e-ejinputtext" value="{{:DefaultSellingPrice}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            DiscountedSellingPrice:
+                        </td>
+                        <td>
+                            <input type="text" id="DiscountedSellingPrice" name="DiscountedSellingPrice" class="e-field e-ejinputtext" value="{{:DiscountedSellingPrice}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                </table>
+                </script>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-              
+
             </div>
             <!-- /.box-footer-->
         </div>
@@ -37,110 +116,8 @@
 <!-- /.content-wrapper -->
 
 @section Styles{
-
 }
 
 @section Scripts{
-
-    <script type="text/javascript">
-        $(function () {
-
-            var dataManager = ej.DataManager({
-                url: "/api/Product",
-                adaptor: new ej.WebApiAdaptor(),
-                offline: true
-            });
-
-            var dataManagerUnitOfMeasure = ej.DataManager({
-                url: "/api/UnitOfMeasure",
-                adaptor: new ej.WebApiAdaptor()
-            });
-
-            var dataManagerBranch = ej.DataManager({
-                url: "/api/Branch",
-                adaptor: new ej.WebApiAdaptor()
-            });
-
-            var dataManagerCurrency = ej.DataManager({
-                url: "/api/Currency",
-                adaptor: new ej.WebApiAdaptor()
-            });
-
-            dataManager.ready.done(function (e) { 
-                $("#Grid").ejGrid({
-                    dataSource: ej.DataManager({
-                        json: e.result,
-                        adaptor: new ej.remoteSaveAdaptor(),
-                        insertUrl: "/api/Product/Insert",
-                        updateUrl: "/api/Product/Update",
-                        removeUrl: "/api/Product/Remove",
-                    }),
-                    toolbarSettings: {
-                        showToolbar: true,
-                        toolbarItems: ["add", "edit", "delete", "update", "cancel", "search", "printGrid"]
-                    },
-                    editSettings: {
-                        allowEditing: true,
-                        allowAdding: true,
-                        allowDeleting: true,
-                        showDeleteConfirmDialog: true,
-                        editMode: "dialog"
-                    },
-                    isResponsive: true,
-                    enableResponsiveRow: true,
-                    allowSorting: true,
-                    allowSearching: true,
-                    allowFiltering: true,
-                    filterSettings: {
-                        filterType: "excel",
-                        maxFilterChoices: 100,
-                        enableCaseSensitivity: false
-                    },
-                    allowPaging: true,
-                    pageSettings: { pageSize: 10, printMode: ej.Grid.PrintMode.CurrentPage },
-                    columns: [
-                        { field: "ProductId", headerText: 'Product Id', isPrimaryKey: true, isIdentity: true, visible: false },
-                        { field: "ProductName", headerText: 'Product Name', validationRules: { required: true } },
-                        { field: "UnitOfMeasureId", headerText: 'UOM', foreignKeyField: "UnitOfMeasureId", foreignKeyValue: "UnitOfMeasureName", dataSource: dataManagerUnitOfMeasure, validationRules: { required: true } },
-                        { field: "Barcode", headerText: 'Barcode', },
-                        { field: "Description", headerText: 'Description', },
-                        { field: "ProductImageUrl", headerText: 'ProductImageUrl', visible: false },
-                        { field: "DefaultBuyingPrice", headerText: 'Buying Price', editType: "numericedit", format: "{0:n2}" },
-                        { field: "DefaultSellingPrice", headerText: 'Selling Price', editType: "numericedit", format: "{0:n2}" },
-                        { field: "BranchId", headerText: 'Branch', foreignKeyField: "BranchId", foreignKeyValue: "BranchName", dataSource: dataManagerBranch },
-                        { field: "CurrencyId", headerText: 'Currency', allowEditing: false, foreignKeyField: "CurrencyId", foreignKeyValue: "CurrencyCode", dataSource: dataManagerCurrency },
-                    ],
-                    actionComplete: "complete",
-                });
-            });
-
-            
-        });
-
-        function complete(args) {
-            if (args.requestType == 'beginedit') {
-                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
-            }
-            if (args.requestType == 'beginedit' || args.requestType == 'add') {
-                $('#GridBranchId').ejDropDownList({ change: 'branchDdlChange' });
-            }
-        }
-
-        function branchDdlChange(e) {
-            $.ajax({
-                url: '/api/Currency/GetByBranchId/' + e.selectedValue,
-                type: 'GET',
-                success: function (data) {
-                    $("#GridCurrencyId").ejDropDownList({
-                        dataSource: [data],
-                        fields: { id: 'CurrencyId', text: 'CurrencyCode', value: 'CurrencyId' },
-                        value: data.CurrencyId
-                    });
-                }
-            })
-        }
-
-
-    </script>
 }
 
