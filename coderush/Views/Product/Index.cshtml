@@ -38,15 +38,69 @@
                         <e-column field="DiscountedSellingPrice" header-text="Discounted Selling Price" format="{0:C2}"></e-column>
                     </e-columns>
                 </ej-grid>
-                <script type="text/x-jsrender" id="colImageTemplate">
-                    <input type="image" src="{{:ProductImageUrl}}" width="120" height="120"/>
+                <script type="text/template" id="colImageTemplate">
+                    <img src="{{:ProductImageUrl}}" width="120" height="120"/>
                 </script>
-                <script type="text/x-jsrender" id="editProductGrid">
-                <div>
-                    Image: <input type="image" src="{{:ProductImageUrl}}" width="120" height="120"/><br/>
-                    ProductName: <input type="text" value="{{:ProductName}}" width="120"/><br/>
-                    Description: <input type="text" value="{{:Description}}" width="120"/><br/>
-                </div>
+                <script type="text/template" id="editProductGrid">
+                <table cellspacing="10">
+                    <tr>
+                        <td>
+                            Image:
+                        </td>
+                        <td>
+                            <img src="{{:ProductImageUrl}}" width="120" height="120"/><br/>
+                            <input type="text" id="ProductImageUrl" name="ProductImageUrl" class="e-field e-ejinputtext" value="{{:ProductImageUrl}}" style="width:200px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ProductName:
+                        </td>
+                        <td>
+                            <input type="text" id="ProductName" name="ProductName" class="e-field e-ejinputtext" value="{{:ProductName}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Description:
+                        </td>
+                        <td>
+                            <input type="text" id="Description" name="Description" class="e-field e-ejinputtext" value="{{:Description}}" style="width:200px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Barcode:
+                        </td>
+                        <td>
+                            <input type="text" id="Barcode" name="Barcode" class="e-field e-ejinputtext" value="{{:Barcode}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            StockCount:
+                        </td>
+                        <td>
+                            <input type="text" id="StockCount" name="StockCount" class="e-field e-ejinputtext" value="{{:StockCount}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            DefaultSellingPrice:
+                        </td>
+                        <td>
+                            <input type="text" id="DefaultSellingPrice" name="DefaultSellingPrice" class="e-field e-ejinputtext" value="{{:DefaultSellingPrice}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            DiscountedSellingPrice:
+                        </td>
+                        <td>
+                            <input type="text" id="DiscountedSellingPrice" name="DiscountedSellingPrice" class="e-field e-ejinputtext" value="{{:DiscountedSellingPrice}}" style="width:116px;height:28px"/>
+                        </td>
+                    </tr>
+                </table>
                 </script>
             </div>
             <!-- /.box-body -->
