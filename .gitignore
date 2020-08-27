@@ -260,11 +260,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-<<<<<<< HEAD
-
 
 # Visual Studio Code
 .vscode
-=======
-.vscode/launch.json
->>>>>>> 39f89d0c9f6fd1843e516b75c36a5717c00c8347
+
+
