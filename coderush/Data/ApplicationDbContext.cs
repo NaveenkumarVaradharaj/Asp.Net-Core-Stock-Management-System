@@ -55,6 +55,8 @@ namespace coderush.Data
 
         public DbSet<coderush.Models.Product> Product { get; set; }
 
+        public DbSet<coderush.Models.ProductProperty> ProductProperty {get; set;}
+
         public DbSet<coderush.Models.ProductType> ProductType { get; set; }
 
         public DbSet<coderush.Models.PurchaseOrder> PurchaseOrder { get; set; }
